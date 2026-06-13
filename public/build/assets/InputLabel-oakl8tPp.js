@@ -1,0 +1,1 @@
+import{j as e}from"./app-C6UA2EYG.js";function l({htmlFor:s,children:t,required:a=!1}){return e.jsxs("label",{htmlFor:s,className:"font-semibold text-gray-700 mb-0 text-sm",children:[t," ",a&&e.jsx("span",{className:"text-red-500",children:"*"})]})}export{l as I};

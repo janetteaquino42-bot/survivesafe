@@ -1,0 +1,1 @@
+const n=e=>{if(!e)return"N/A";const t=new Date(e);return new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Manila",year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"}).format(t)};export{n as f};

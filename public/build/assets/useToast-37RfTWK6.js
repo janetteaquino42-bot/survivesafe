@@ -1,0 +1,1 @@
+import{u as e,q as t,r as o}from"./app-C6UA2EYG.js";const r=()=>e(),h=()=>{const{props:s}=t(),{handleFlashMessage:a}=r();o.useEffect(()=>{s.flash&&Object.keys(s.flash).length>0&&a(s.flash)},[s.flash])};export{h as a,r as u};

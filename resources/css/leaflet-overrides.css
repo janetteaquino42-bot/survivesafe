@@ -1,0 +1,42 @@
+/* 
+ * Custom CSS overrides for Leaflet map in Seller Application
+ * Add this to resources/css/custom.css if needed
+ */
+
+/* Ensure map container has proper z-index */
+.leaflet-container {
+    z-index: 1;
+}
+
+/* Fix marker icon positioning if needed */
+.leaflet-marker-icon {
+    margin-left: -12px !important;
+    margin-top: -41px !important;
+}
+
+/* Style for map popup if added later */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive map on mobile */
+@media (max-width: 640px) {
+    .leaflet-container {
+        height: 300px !important;
+    }
+}
+
+/* Loading overlay for map */
+.map-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+}

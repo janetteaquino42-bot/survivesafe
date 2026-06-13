@@ -1,0 +1,586 @@
+<?php
+
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Api\SystemSettingsController;
+use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\Auth\FacebookAuthController;
+use App\Http\Controllers\Auth\GitHubAuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ExhibitController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderManagementController;
+use App\Http\Controllers\PayMongoWebhookController;
+use App\Http\Controllers\ProfilePhotoController;
+use App\Http\Controllers\SellerApplicationController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\SellerWalletController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+// Public Pages
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/terms-of-service', [HomeController::class, 'termsOfService'])->name('terms-of-service');
+Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
+// Route::get('/', function () {
+//     // $roleRedirects = [
+//     //     'super_admin' => 'admin.dashboard',
+//     //     'admin' => 'admin.dashboard',
+//     //     'trainer' => 'trainer.dashboard',
+//     //     'student' => 'student.dashboard',
+//     // ];
+//     // if (array_key_exists(Auth::user()->role, $roleRedirects)) {
+//     //     return redirect()->route($roleRedirects[Auth::user()->role]);
+//     // }
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+/* Super Admin, admin */
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'admin'])->group(function () {
+    /* Dashboard */
+    // Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard'); /* admin.dashboard */
+    // Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard'); /* admin.dashboard */
+    // /* Sign Up Requests */
+    // Route::prefix('sign-up-requests')->name('sign_up_requests.')->group(function () {
+    //     Route::get('/', [SignUpRequestsController::class, 'index'])->name('index'); /* admin.sign_up_requests.index */
+    //     Route::patch('/{courses_enrolled_id}/approve', [SignUpRequestsController::class, 'approve'])->name('approve'); /* admin.sign_up_requests.approve */
+    //     Route::patch('/{courses_enrolled_id}/decline', [SignUpRequestsController::class, 'decline'])->name('decline'); /* admin.sign_up_requests.decline */
+    //     Route::patch('/{courses_enrolled_id}/approve', [SignUpRequestsController::class, 'approve'])->name('approve'); /* admin.sign_up_requests.approve */
+    //     Route::patch('/{courses_enrolled_id}/decline', [SignUpRequestsController::class, 'decline'])->name('decline'); /* admin.sign_up_requests.decline */
+    // });
+
+    // /* Trainers */
+    // Route::prefix('trainers')->name('trainers.')->group(function () {
+    //     Route::get('/', [TrainersController::class, 'index'])->name('index'); /* admin.trainers.index */
+    //     Route::get('/{user_id}/details', [TrainersController::class, 'details'])->name('details'); /* admin.trainers.details */
+    //     Route::patch('/{user_id}/deactivate', [TrainersController::class, 'deactivate'])->name('deactivate'); /* admin.trainers.deactivate */
+    //     Route::patch('/{user_id}/enable', [TrainersController::class, 'activate'])->name('activate'); /* admin.trainers.activate */
+    //     Route::patch('/{user_id}/deactivate', [TrainersController::class, 'deactivate'])->name('deactivate'); /* admin.trainers.deactivate */
+    //     Route::patch('/{user_id}/enable', [TrainersController::class, 'activate'])->name('activate'); /* admin.trainers.activate */
+    //     Route::patch('/{user_id}/destroy', [TrainersController::class, 'destroy'])->name('destroy'); /* admin.trainers.destroy */
+    //     Route::post('/assign-course', [TrainersController::class, 'assignCourse'])->name('assign-course'); /* admin.trainers.assign-course */
+    //     Route::post('/{courses_assigned_id}/unassign-course', [TrainersController::class, 'unassignCourse'])->name('unassign-course'); /* admin.trainers.unassign-course */
+    //     Route::post('/{courses_assigned_id}/unassign-course', [TrainersController::class, 'unassignCourse'])->name('unassign-course'); /* admin.trainers.unassign-course */
+    // });
+
+    // /* Courses */
+    // Route::prefix('course')->name('course.')->group(function () {
+    //     Route::get('/', [CoursesController::class, 'index'])->name('index'); /* admin.course.index */
+    //     Route::post('/store', [CoursesController::class, 'store'])->name('store'); /* admin.course.store */
+    //     Route::get('/{course_id}/details', [CoursesController::class, 'details'])->name('details'); /* admin.course.details */
+    //     Route::patch('/{course_id}/deactivate', [CoursesController::class, 'deactivate'])->name('deactivate'); /* admin.course.deactivate */
+    //     Route::patch('/{course_id}/activate', [CoursesController::class, 'activate'])->name('activate'); /* admin.course.activate */
+    //     Route::delete('/{course_id}/destroy', [CoursesController::class, 'destroy'])->name('destroy'); /* admin.course.destroy */
+    //     Route::post('/{course_id}/update', [CoursesController::class, 'update'])->name('update'); /* admin.course.destroy */
+    //     Route::post('/{course_id}/update-overview', [CoursesController::class, 'updateOverview'])->name('update-overview'); /* admin.course.destroy */
+    //     Route::post('/{courses_assigned_id}/unassign-trainer', [CoursesController::class, 'unassignTrainer'])->name('unassign-trainer'); /* admin.course.unassign-trainer */
+    //     Route::post('/{courses_enrolled_id}/unenroll-student', [CoursesController::class, 'unenrollStudent'])->name('unenroll-student'); /* admin.course.unassign-trainer */
+    // });
+
+    // /* Student Management */
+    // Route::prefix('student-management')->name('student-management.')->group(function () {
+    //     Route::get('/', [StudentManagementController::class, 'index'])->name('index'); /* admin.student-management.index */
+    //     Route::patch('/{user_id}/disable', [StudentManagementController::class, 'disableStudent'])->name('disable'); /* admin.student-management.disable */
+    //     Route::patch('/{user_id}/activate', [StudentManagementController::class, 'activateStudent'])->name('activate'); /* admin.student-management.activate */
+    //     Route::get('/{user_id}/details', [StudentManagementController::class, 'details'])->name('details'); /* admin.student-management.details */
+    //     Route::delete('/{courses_enrolled_id}/unenroll-student', [StudentManagementController::class, 'unenrollStudent'])->name('unenroll-student'); /* admin.student-management.unenroll-student */
+
+    // });
+
+    // /* Course Categories */
+    // Route::prefix('categories')->name('categories.')->group(function () {
+    //     Route::get('/', [CourseCategoriesController::class, 'index'])->name('index'); /* admin.categories.index */
+    //     Route::post('/create', [CourseCategoriesController::class, 'store'])->name('create'); /* admin.categories.create */
+    //     Route::get('/{category_id}/details', [CourseCategoriesController::class, 'details'])->name('details'); /* admin.categories.details */
+    //     Route::post('/add-course', [CourseCategoriesController::class, 'addCourse'])->name('add-course'); /* admin.categories.add-course */
+    //     Route::patch('/{course_id}/uncategorize', [CourseCategoriesController::class, 'uncategorizeCourse'])->name('uncategorize-course'); /* admin.categories.uncategorize-course */
+    //     // Route::patch('/{category_id}/update', [CourseCategoriesController::class, 'update'])->name('update'); /* admin.categories.update */
+    //     Route::delete('/{category_id}/destroy', [CourseCategoriesController::class, 'destroy'])->name('destroy'); /* admin.categories.destroy */
+    // });
+
+    // /* Question Bank */
+    // Route::prefix('question-bank')->name('question-bank.')->group(function () {
+    //     Route::get('/', [QuestionBankController::class, 'index'])->name('index'); /* admin.question-bank.index */
+    //     Route::get('/create', [QuestionBankController::class, 'create'])->name('create'); /* admin.question-bank.create */
+    //     Route::post('/store', [QuestionBankController::class, 'store'])->name('store'); /* admin.question-bank.store */
+    //     Route::get('/view/{question_bank_id}', [QuestionBankController::class, 'view'])->name('view'); /* admin.question-bank.view */
+    //     Route::get('/edit/{question_bank_id}', [QuestionBankController::class, 'edit'])->name('edit'); /* admin.question-bank.edit */
+    //     Route::post('/update/{question_bank_id}', [QuestionBankController::class, 'update'])->name('update'); /* admin.question-bank.update */
+    //     Route::delete('/destroy/{exam_sets_id}', [QuestionBankController::class, 'destroy'])->name('destroy'); /* admin.question-bank.destroy */
+    // });
+
+    // /* Exam Sets */
+    // Route::prefix('exam-sets')->name('exam-sets.')->group(function () {
+    //     Route::get('/', [ExamSetsController::class, 'index'])->name('index'); /* admin.exam-sets.index */
+    //     Route::post('/create-new-exam-set', [ExamSetsController::class, 'create'])->name('create'); /* admin.exam-sets.create */
+    //     Route::prefix('/edit')->name('edit.')->group(function () {
+    //         Route::get('/{exam_sets_id}', [ExamSetsController::class, 'edit'])->name('index'); /* admin.exam-sets.edit.index */
+    //         Route::patch('/update/{exam_sets_id}', [ExamSetsController::class, 'update'])->name('update'); /* admin.exam-sets.edit.update */
+    //         Route::patch('/update-points/{question_bank_id}', [ExamSetsController::class, 'updatePoints'])->name('update-points'); /* admin.exam-sets.edit.update-points */
+    //         Route::patch('/add-to-selected/{question_bank_id}', [ExamSetsController::class, 'addToSelected'])->name('add-to-selected'); /* admin.exam-sets.edit.add-to-selected */
+    //         Route::patch('/remove-from-selected/{question_bank_id}', [ExamSetsController::class, 'removeFromSelected'])->name('remove-from-selected'); /* admin.exam-sets.edit.remove-from-selected */
+    //     });
+    //     Route::delete('/destroy/{question_bank_id}', [ExamSetsController::class, 'destroy'])->name('destroy'); /* admin.exam-sets.destroy */
+    // });
+});
+
+/* Trainer */
+Route::prefix('trainer')->name('trainer.')->middleware(['auth', 'verified', 'trainer'])->group(function () {
+    /* Dashboard */
+    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard'); /* trainer.dashboard */
+
+    // /* Sign Up Requests */
+    // Route::prefix('sign-up-requests')->name('sign_up_requests.')->group(function () {
+    //     Route::get('/', [TrainerSignUpRequestsController::class, 'index'])->name('index'); /* trainer.sign_up_requests.index */
+    //     Route::patch('/{courses_enrolled_id}/approve', [SignUpRequestsController::class, 'approve'])->name('approve'); /* trainer.sign_up_requests.approve */
+    //     Route::patch('/{courses_enrolled_id}/decline', [SignUpRequestsController::class, 'decline'])->name('decline'); /* trainer.sign_up_requests.decline */
+    // });
+
+    // /* Courses */
+    // Route::prefix('course')->name('course.')->group(function () {
+    //     Route::get('/', [TrainerCoursesController::class, 'index'])->name('index'); /* trainer.course.index */
+    //     Route::get('/{course_id}/details', [TrainerCoursesController::class, 'details'])->name('details'); /* trainer.course.details */
+    //     Route::post('/{courses_enrolled_id}/unenroll-student', [TrainerCoursesController::class, 'unenrollStudent'])->name('unenroll-student'); /* trainer.course.unassign-trainer */
+    // });
+
+    // /* Student Management */
+    // Route::prefix('student-management')->name('student-management.')->group(function () {
+    //     Route::get('/', [TrainerStudentManagementController::class, 'index'])->name('index'); /* trainer.student-management.index */
+    //     // Route::get('/{user_id}/details', [StudentManagementController::class, 'details'])->name('details'); /* trainer.student-management.details */
+    // });
+});
+Route::prefix('trainer')->name('trainer.')->middleware(['auth', 'verified', 'trainer'])->group(function () {
+    // /* Dashboard */
+    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard'); /* trainer.dashboard */
+
+    // /* Sign Up Requests */
+    // Route::prefix('sign-up-requests')->name('sign_up_requests.')->group(function () {
+    //     Route::get('/', [TrainerSignUpRequestsController::class, 'index'])->name('index'); /* trainer.sign_up_requests.index */
+    //     Route::patch('/{courses_enrolled_id}/approve', [SignUpRequestsController::class, 'approve'])->name('approve'); /* trainer.sign_up_requests.approve */
+    //     Route::patch('/{courses_enrolled_id}/decline', [SignUpRequestsController::class, 'decline'])->name('decline'); /* trainer.sign_up_requests.decline */
+    // });
+
+    // /* Courses */
+    // Route::prefix('course')->name('course.')->group(function () {
+    //     Route::get('/', [TrainerCoursesController::class, 'index'])->name('index'); /* trainer.course.index */
+    //     Route::get('/{course_id}/details', [TrainerCoursesController::class, 'details'])->name('details'); /* trainer.course.details */
+    //     Route::post('/{courses_enrolled_id}/unenroll-student', [TrainerCoursesController::class, 'unenrollStudent'])->name('unenroll-student'); /* trainer.course.unassign-trainer */
+    // });
+
+    // /* Student Management */
+    // Route::prefix('student-management')->name('student-management.')->group(function () {
+    //     Route::get('/', [TrainerStudentManagementController::class, 'index'])->name('index'); /* trainer.student-management.index */
+    //     // Route::get('/{user_id}/details', [StudentManagementController::class, 'details'])->name('details'); /* trainer.student-management.details */
+    // });
+});
+
+/* Student */
+Route::prefix('student')->name('student.')->middleware(['auth', 'verified', 'student', 'approved', 'not_expired'])->group(function () {
+    // // Profile Management
+    // Route::prefix('profile-settings')->name('profile-settings.')->group(function () {
+    //     Route::get('/', [StudentProfileController::class, 'edit'])->name('edit'); /* student.profile-settings.edit */
+    //     Route::patch('/', [StudentProfileController::class, 'update'])->name('update'); /* student.profile-settings.update */
+    // });
+    // // Dashboard
+    // Route::get('/', [StudentDashboardController::class, 'index'])->name('dashboard'); /* student.dashboard */
+    // Route::get('/', [StudentDashboardController::class, 'index'])->name('dashboard'); /* student.dashboard */
+
+    // // Courses
+    // Route::prefix('course')->name('course.')->group(function () {
+    //     Route::get('/', [StudentCoursesController::class, 'index'])->name('index'); /* student.course.index */
+    //     Route::get('/{course_id}/details', [StudentCoursesController::class, 'details'])->name('details'); /* student.course.details */
+    //     Route::get('/', [StudentCoursesController::class, 'index'])->name('index'); /* student.course.index */
+    //     Route::get('/{course_id}/details', [StudentCoursesController::class, 'details'])->name('details'); /* student.course.details */
+    // });
+
+    // /* Exam */
+    // Route::prefix('exam')->name('exam.')->group(function () {
+    //     Route::get('/', [StudentExamController::class, 'index'])->name('index'); /* student.exam.index */
+    //     Route::get('/exam-history', [StudentExamHistoryController::class, 'index'])->name('exam-history'); /* student.exam.exam-history */
+    // });
+
+    // // Evaluate
+    // Route::prefix('evaluate')->name('evaluate.')->group(function () {
+    //     Route::get('/', [StudentEvaluateController::class, 'index'])->name('index'); /* student.evaluate.index */
+    // });
+});
+
+// Google OAuth //! This should be remain for future use alongside with Facebook if possible and remove the github OAuth
+Route::prefix('auth/google')->group(function () {
+    Route::get('/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google.redirect');
+    Route::get('/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');
+});
+
+// Facebook OAuth
+Route::prefix('auth/facebook')->group(function () {
+    Route::get('/redirect', [FacebookAuthController::class, 'redirect'])->name('auth.facebook.redirect');
+    Route::get('/callback', [FacebookAuthController::class, 'callback'])->name('auth.facebook.callback');
+});
+
+// GitHub OAuth
+Route::prefix('auth/github')->group(function () {
+    Route::get('/redirect', [GitHubAuthController::class, 'redirect'])->name('auth.github.redirect');
+    Route::get('/callback', [GitHubAuthController::class, 'callback'])->name('auth.github.callback');
+});
+
+Route::middleware('auth')->group(function () {
+    // Route::get('/pending-account', function () {
+    //     $userId = auth()->id();
+    //     $hasEnrolled = CoursesEnrolledModel::where('student_id', $userId)->exists();
+
+    //     return Inertia::render('PendingAccount', [
+    //         'hasEnrolled' => $hasEnrolled,
+    //     ]);
+    // })->name('pendingAccount');
+
+    // Route::post('/initial-enroll', [StudentCoursesController::class, 'initialEnroll'])->name('initial-enroll'); /* initial-enroll */
+
+    // Route::get('/user/status', function () {
+    //     return response()->json(['status' => auth()->user()->status]);
+    // });
+    // Route::post('/initial-enroll', [StudentCoursesController::class, 'initialEnroll'])->name('initial-enroll'); /* initial-enroll */
+
+    // Route::get('/user/status', function () {
+    //     return response()->json(['status' => auth()->user()->status]);
+    // });
+});
+
+Route::get('/verify', function () {
+    return Inertia::render('Auth/VerifyEmail', [
+        'status' => session('status'),
+        'email' => request()->user()->email ?? request()->email,
+    ]);
+})->name('auth.verify');
+
+Route::get('/verified', function () {
+    return Inertia::render('Auth/EmailVerified', [
+        'verified' => true,
+    ]);
+})->name('auth.verified');
+
+Route::get('/expired', function () {
+    return Inertia::render('Auth/LinkExpired', [
+        'reason' => 'expired',
+    ]);
+})->name('auth.expired');
+
+Route::get('/used', function () {
+    return Inertia::render('Auth/LinkExpired', [
+        'reason' => 'used',
+    ]);
+})->name('auth.used');
+
+Route::get('/invalid', function () {
+    return Inertia::render('Auth/LinkExpired', [
+        'reason' => 'invalid',
+    ]);
+})->name('auth.invalid');
+
+// Temporary manual verification route for testing
+Route::get('/manual-verify/{userId}', function ($userId) {
+    $user = \App\Models\User::find($userId);
+    
+    if (!$user) {
+        return redirect()->route('home')->with('error', 'User not found.');
+    }
+    
+    if ($user->hasVerifiedEmail()) {
+        return redirect()->route('home')->with('message', 'Email already verified.');
+    }
+    
+    // Manually verify the user
+    $user->markEmailAsVerified();
+    $user->upgradeToVerifiedUser();
+    
+    return redirect()->route('home')->with('message', 'Email verified successfully! You can now make transactions.');
+})->middleware('auth')->name('manual.verify');
+
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::get('/gallery/categories', [CategoriesController::class, 'artworkCategories'])->name('gallery.categories');
+Route::get('/gallery/{id}', [GalleryController::class, 'show'])->name('artwork.show');
+Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
+Route::get('/materials/categories', [CategoriesController::class, 'materialCategories'])->name('materials.categories');
+Route::get('/materials/{id}', [MaterialController::class, 'show'])->name('materials.show');
+Route::get('/artists', [\App\Http\Controllers\ArtistController::class, 'index'])->name('artists.index');
+Route::get('/artists/{id}', [\App\Http\Controllers\ArtistController::class, 'show'])->name('artists.show');
+
+// Contact and Information Pages
+Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// API Routes for categories
+Route::get('/api/categories', [CategoriesController::class, 'getCategories'])->name('api.categories');
+
+// Follow routes - Require verification for following/unfollowing
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/follow/{userId}', [\App\Http\Controllers\FollowController::class, 'follow'])->name('follow');
+    Route::delete('/unfollow/{userId}', [\App\Http\Controllers\FollowController::class, 'unfollow'])->name('unfollow');
+});
+
+// Profile photo routes - Allow for authenticated users
+Route::middleware('auth')->group(function () {
+    Route::post('/profile/photo', [\App\Http\Controllers\ProfilePhotoController::class, 'updateProfilePhoto'])->name('profile.photo.update');
+    Route::post('/profile/cover', [\App\Http\Controllers\ProfilePhotoController::class, 'updateCoverPhoto'])->name('profile.cover.update');
+});
+
+// Public follower/following lists
+Route::get('/users/{userId}/followers', [\App\Http\Controllers\FollowController::class, 'getFollowers'])->name('users.followers');
+Route::get('/users/{userId}/following', [\App\Http\Controllers\FollowController::class, 'getFollowing'])->name('users.following');
+
+Route::get('/exhibits', [\App\Http\Controllers\ExhibitController::class, 'index'])->name('exhibits.index');
+
+// Authenticated exhibit application routes (must come before {id} route)
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/exhibits/apply', [\App\Http\Controllers\ExhibitController::class, 'create'])->name('exhibits.apply');
+    Route::post('/exhibits/apply', [\App\Http\Controllers\ExhibitController::class, 'store'])->name('exhibits.apply.store');
+});
+
+Route::get('/exhibits/{id}', [\App\Http\Controllers\ExhibitController::class, 'show'])->name('exhibits.show');
+
+/* Seller Application */
+Route::middleware(['auth', 'verified'])->prefix('seller')->name('seller.')->group(function () {
+    Route::post('/apply', [\App\Http\Controllers\SellerApplicationController::class, 'store'])->name('apply.store');
+    Route::get('/apply', [\App\Http\Controllers\SellerApplicationController::class, 'create'])->name('apply.create');
+});
+
+/* Admin Panel */
+
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Api\SystemSettingsController;
+
+// API Routes for System Settings (accessible to authenticated admins)
+Route::middleware(['auth'])->prefix('api')->group(function () {
+    Route::get('/system-settings/decline-reasons/{type}', [SystemSettingsController::class, 'getDeclineReasons']);
+});
+
+Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Seller Applications
+    Route::get('/sellers/applications', [AdminController::class, 'sellerApplications'])->name('sellers.applications');
+    Route::post('/sellers/{id}/approve', [AdminController::class, 'approveSeller'])->name('sellers.approve');
+    Route::post('/sellers/{id}/decline', [AdminController::class, 'declineSeller'])->name('sellers.decline');
+
+    // Artworks Management
+    Route::get('/artworks', [AdminController::class, 'allArtworks'])->name('artworks.index');
+    Route::get('/artworks/pending', [AdminController::class, 'pendingArtworks'])->name('artworks.pending');
+    Route::post('/artworks', [AdminController::class, 'storeArtwork'])->name('artworks.store');
+    Route::patch('/artworks/{id}', [AdminController::class, 'updateArtwork'])->name('artworks.update');
+    Route::delete('/artworks/{id}', [AdminController::class, 'destroyArtwork'])->name('artworks.destroy');
+    Route::post('/artworks/{id}/approve', [AdminController::class, 'approveArtwork'])->name('artworks.approve');
+    Route::post('/artworks/{id}/decline', [AdminController::class, 'declineArtwork'])->name('artworks.decline');
+
+    // Materials Management
+    Route::get('/materials', [AdminController::class, 'allMaterials'])->name('materials.index');
+    Route::get('/materials/pending', [AdminController::class, 'pendingMaterials'])->name('materials.pending');
+    Route::post('/materials', [AdminController::class, 'storeMaterial'])->name('materials.store');
+    Route::patch('/materials/{id}', [AdminController::class, 'updateMaterial'])->name('materials.update');
+    Route::delete('/materials/{id}', [AdminController::class, 'destroyMaterial'])->name('materials.destroy');
+    Route::post('/materials/{id}/approve', [AdminController::class, 'approveMaterial'])->name('materials.approve');
+    Route::post('/materials/{id}/decline', [AdminController::class, 'declineMaterial'])->name('materials.decline');
+
+    // Categories Management
+    Route::get('/categories/all', [AdminController::class, 'artworkCategories'])->name('categories.index');
+    Route::get('/categories/{id}/details', [AdminController::class, 'getCategoryDetails'])->name('categories.details');
+    Route::post('/categories/artworks', [AdminController::class, 'storeArtworkCategory'])->name('categories.artworks.store');
+    Route::patch('/categories/artworks/{id}', [AdminController::class, 'updateArtworkCategory'])->name('categories.artworks.update');
+    Route::delete('/categories/artworks/{id}', [AdminController::class, 'deleteArtworkCategory'])->name('categories.artworks.delete');
+
+    // Orders Management
+    Route::get('/orders', [AdminController::class, 'allOrders'])->name('orders.index');
+
+    // Exhibits Management
+    Route::get('/exhibits/all', [AdminController::class, 'allExhibits'])->name('exhibits.all');
+    Route::get('/exhibits/pending', [AdminController::class, 'pendingExhibits'])->name('exhibits.pending');
+    Route::post('/exhibits', [AdminController::class, 'storeExhibit'])->name('exhibits.store');
+    Route::patch('/exhibits/{id}', [AdminController::class, 'updateExhibit'])->name('exhibits.update');
+    Route::delete('/exhibits/{id}', [AdminController::class, 'destroyExhibit'])->name('exhibits.destroy');
+    Route::post('/exhibits/{id}/approve', [AdminController::class, 'approveExhibit'])->name('exhibits.approve');
+    Route::post('/exhibits/{id}/decline', [AdminController::class, 'declineExhibit'])->name('exhibits.decline');
+
+    // Users Management
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+    Route::patch('/users/{id}', [AdminController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('users.destroy');
+    Route::get('/users/buyers', [AdminController::class, 'buyers'])->name('users.buyers');
+    Route::get('/users/sellers', [AdminController::class, 'sellers'])->name('users.sellers');
+    Route::get('/users/administrators', [AdminController::class, 'administrators'])->name('users.administrators');
+    Route::post('/users/{id}/role', [AdminController::class, 'updateUserRole'])->name('users.update-role');
+
+    // Content Management
+    // Home
+    Route::get('/content/home', [AdminController::class, 'homeContent'])->name('content.home');
+    Route::post('/content/home/carousel-1', [AdminController::class, 'updateHomeCarousel1'])->name('content.home.carousel1');
+    Route::delete('/content/home/carousel-1/remove', [AdminController::class, 'removeHomeCarousel1Image'])->name('content.home.carousel1.remove');
+    Route::post('/content/home/carousel-2', [AdminController::class, 'updateHomeCarousel2'])->name('content.home.carousel2');
+    Route::delete('/content/home/carousel-2/remove', [AdminController::class, 'removeHomeCarousel2Image'])->name('content.home.carousel2.remove');
+    Route::post('/content/home/features', [AdminController::class, 'updateHomeFeatures'])->name('content.home.features');
+    Route::post('/content/home/featured-artworks', [AdminController::class, 'updateHomeFeaturedArtworks'])->name('content.home.featured-artworks');
+    Route::post('/content/home/featured-artists', [AdminController::class, 'updateHomeFeaturedArtists'])->name('content.home.featured-artists');
+
+    // About
+    Route::get('/content/about', [AdminController::class, 'aboutContent'])->name('content.about');
+    Route::post('/content/about/text', [AdminController::class, 'updateAboutText'])->name('content.about.text');
+    Route::post('/content/about/carousel', [AdminController::class, 'updateAboutCarousel'])->name('content.about.carousel');
+    Route::delete('/content/about/carousel/remove', [AdminController::class, 'removeAboutCarouselImage'])->name('content.about.carousel.remove');
+    Route::post('/content/about/gallery', [AdminController::class, 'updateAboutGallery'])->name('content.about.gallery');
+    Route::delete('/content/about/gallery/remove', [AdminController::class, 'removeAboutGalleryImage'])->name('content.about.gallery.remove');
+    Route::post('/content/about/features', [AdminController::class, 'updateAboutFeatures'])->name('content.about.features');
+    Route::post('/content/about/values', [AdminController::class, 'updateAboutValues'])->name('content.about.values');
+
+    // Privacy Policy
+    Route::get('/content/privacy', [AdminController::class, 'privacyPolicyContent'])->name('content.privacy');
+    Route::post('/content/privacy', [AdminController::class, 'updatePrivacyPolicy'])->name('content.privacy.update');
+
+    // Terms of Service
+    Route::get('/content/terms', [AdminController::class, 'termsOfServiceContent'])->name('content.terms');
+    Route::post('/content/terms', [AdminController::class, 'updateTermsOfService'])->name('content.terms.update');
+
+    // FAQs
+    Route::get('/content/faqs', [AdminController::class, 'faqsContent'])->name('content.faqs');
+    Route::post('/content/faqs', [AdminController::class, 'updateFaqs'])->name('content.faqs.update');
+
+    // Withdrawal Management
+    Route::get('/withdrawals', [\App\Http\Controllers\Admin\WithdrawalController::class, 'index'])->name('withdrawals.index');
+    Route::get('/withdrawals/{withdrawal}', [\App\Http\Controllers\Admin\WithdrawalController::class, 'show'])->name('withdrawals.show');
+    Route::patch('/withdrawals/{withdrawal}/approve', [\App\Http\Controllers\Admin\WithdrawalController::class, 'approve'])->name('withdrawals.approve');
+    Route::patch('/withdrawals/{withdrawal}/decline', [\App\Http\Controllers\Admin\WithdrawalController::class, 'decline'])->name('withdrawals.decline');
+    Route::patch('/withdrawals/{withdrawal}/complete', [\App\Http\Controllers\Admin\WithdrawalController::class, 'complete'])->name('withdrawals.complete');
+    Route::post('/withdrawals/bulk-update', [\App\Http\Controllers\Admin\WithdrawalController::class, 'bulkUpdate'])->name('withdrawals.bulk-update');
+
+    // Settings
+    Route::get('/settings/system', [AdminController::class, 'systemSettings'])->name('settings.system');
+});
+
+/* Seller Panel */
+
+use App\Http\Controllers\SellerController;
+
+Route::middleware(['auth', 'verified', 'seller'])->prefix('seller')->name('seller.')->group(function () {
+    Route::get('/dashboard', [SellerController::class, 'dashboard'])->name('dashboard');
+
+    // Artworks Management
+    Route::get('/artworks', [SellerController::class, 'artworks'])->name('artworks.index');
+    Route::post('/artworks', [SellerController::class, 'storeArtwork'])->name('artworks.store');
+    Route::patch('/artworks/{id}', [SellerController::class, 'updateArtwork'])->name('artworks.update');
+    Route::delete('/artworks/{id}', [SellerController::class, 'destroyArtwork'])->name('artworks.destroy');
+
+    // Materials Management
+    Route::get('/materials', [SellerController::class, 'materials'])->name('materials.index');
+    Route::post('/materials', [SellerController::class, 'storeMaterial'])->name('materials.store');
+    Route::patch('/materials/{id}', [SellerController::class, 'updateMaterial'])->name('materials.update');
+    Route::delete('/materials/{id}', [SellerController::class, 'destroyMaterial'])->name('materials.destroy');
+
+    // Exhibits Management
+    Route::get('/exhibits', [SellerController::class, 'exhibits'])->name('exhibits.index');
+    Route::delete('/exhibits/{id}', [SellerController::class, 'destroyExhibit'])->name('exhibits.destroy');
+    Route::post('/exhibits', [SellerController::class, 'storeExhibit'])->name('exhibits.store');
+    Route::patch('/exhibits/{id}', [SellerController::class, 'updateExhibit'])->name('exhibits.update');
+
+    // Orders Management
+    Route::get('/orders', [SellerController::class, 'orders'])->name('orders.index');
+    Route::get('/seller-orders', [OrderManagementController::class, 'sellerOrders'])->name('orders.seller');
+    // Wallet Management
+    Route::get('/wallet', [\App\Http\Controllers\SellerWalletController::class, 'index'])->name('wallet.index');
+    Route::get('/wallet/withdraw', [\App\Http\Controllers\SellerWalletController::class, 'createWithdrawal'])->name('wallet.withdraw.create');
+    Route::post('/wallet/withdraw', [\App\Http\Controllers\SellerWalletController::class, 'storeWithdrawal'])->name('wallet.withdraw.store');
+    Route::get('/wallet/withdrawals/{withdrawal}', [\App\Http\Controllers\SellerWalletController::class, 'showWithdrawal'])->name('wallet.withdrawal.show');
+
+    // Account Settings
+    Route::get('/settings', [SellerController::class, 'accountSettings'])->name('account.settings');
+});
+
+/* Cart and Order Routes */
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderManagementController;
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Cart Management
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::post('/cart/remove-multiple', [CartController::class, 'destroyMultiple'])->name('cart.remove.multiple');
+    Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
+
+    // Address Management
+    Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/addresses/{id}', [AddressController::class, 'show'])->name('addresses.show');
+    Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::put('/addresses/{id}/set-default', [AddressController::class, 'setDefault'])->name('addresses.set-default');
+
+    // Checkout & Orders
+    Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/success', [OrderController::class, 'success'])->name('orders.success');
+
+    // Payment Success/Failure
+    Route::get('/payment/success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/failed', [OrderController::class, 'paymentFailed'])->name('payment.failed');
+
+    // Order Management
+    Route::get('/my-orders', [OrderManagementController::class, 'buyerOrders'])->name('orders.buyer');
+    Route::get('/seller-orders', [OrderManagementController::class, 'sellerOrders'])->name('orders.seller');
+    Route::get('/orders/{order}', [OrderManagementController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [OrderManagementController::class, 'updateStatus'])->name('orders.update-status');
+    Route::patch('/orders/{order}/delivered', [OrderManagementController::class, 'markAsDelivered'])->name('orders.mark-delivered');
+    Route::patch('/orders/{order}/received', [OrderManagementController::class, 'markAsReceived'])->name('orders.mark-received');
+    Route::patch('/orders/{order}/dispute', [OrderManagementController::class, 'disputeOrder'])->name('orders.dispute');
+    Route::patch('/orders/{order}/cancel', [OrderManagementController::class, 'cancelOrder'])->name('orders.cancel');
+});
+
+/* PayMongo Webhook (No Auth Required) */
+use App\Http\Controllers\PayMongoWebhookController;
+
+Route::post('/paymongo/webhook', [PayMongoWebhookController::class, 'handle'])->name('paymongo.webhook');
+
+Route::get('/logout', function () {
+    Auth::logout();
+
+    return redirect('/');
+})->name('auth.logout');
+
+Route::get('/logout', function () {
+    Auth::logout();
+
+    return redirect('/');
+})->name('auth.logout');
+
+// Forum Routes
+use App\Http\Controllers\ForumController;
+
+// Forum reading routes - Available to all authenticated users (including pending)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
+    Route::get('/forum/posts/{post}', [ForumController::class, 'show'])->name('forum.posts.show');
+});
+
+// Forum interaction routes - Require verified users only
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/forum/posts', [ForumController::class, 'store'])->name('forum.posts.store');
+    Route::put('/forum/posts/{post}', [ForumController::class, 'update'])->name('forum.posts.update');
+    Route::delete('/forum/posts/{post}', [ForumController::class, 'destroy'])->name('forum.posts.destroy');
+    Route::post('/forum/posts/{post}/like', [ForumController::class, 'like'])->name('forum.posts.like');
+    Route::post('/forum/posts/{post}/comments', [ForumController::class, 'storeComment'])->name('forum.comments.store');
+    Route::put('/forum/comments/{comment}', [ForumController::class, 'updateComment'])->name('forum.comments.update');
+    Route::delete('/forum/comments/{comment}', [ForumController::class, 'destroyComment'])->name('forum.comments.destroy');
+});
+
+require __DIR__.'/auth.php';

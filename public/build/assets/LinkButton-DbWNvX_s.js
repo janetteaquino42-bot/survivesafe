@@ -1,0 +1,4 @@
+import{j as n,J as g}from"./app-C6UA2EYG.js";function v({children:e,href:t,className:o="",color:a="primary",underline:l="hover",size:i="md",disabled:x=!1,external:c=!1,...r}){const m={sm:"text-sm",md:"text-base",lg:"text-lg"},u={primary:"text-blue-600 hover:text-blue-700",secondary:"text-gray-600 hover:text-gray-800",success:"text-green-600 hover:text-green-700",danger:"text-red-600 hover:text-red-700"},d={none:"",hover:"hover:underline",always:"underline"},s=`${m[i]} ${u[a]} ${d[l]} 
+        font-medium transition-colors inline-flex items-center gap-1
+        ${x?"opacity-50 cursor-not-allowed pointer-events-none":"cursor-pointer"}
+        ${o}`;return c?n.jsx("a",{href:t,target:"_blank",rel:"noopener noreferrer",className:s,...r,children:e}):n.jsx(g,{href:t,className:s,...r,children:e})}export{v as L};

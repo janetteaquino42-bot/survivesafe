@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Verify You Account - Art Carousel</title>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+
+    <body
+        style="
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            font-size: 14px;
+        "
+    >
+        <div
+            style="
+                max-width: 680px;
+                margin: 0 auto;
+                padding: 45px 30px 60px;
+                background: #000;
+                background-image: url(https://cdn.pixabay.com/photo/2022/06/25/08/43/space-7283103_1280.jpg);
+                background-repeat: no-repeat;
+                background-size: 800px 452px;
+                background-position: top center;
+                font-size: 14px;
+                color: #434343;
+            "
+        >
+            <header>
+                <table style="width: 100%">
+                    <tbody>
+                        <tr style="height: 0">
+                            <td>
+                                <img
+                                    alt="Art Carousel Logo"
+                                    src="https://i.ibb.co/PwpcrvX/AC-LOGO-WHITE.png"
+                                    height="30px"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
+
+            <main>
+                <div
+                    style="
+                        margin: 0;
+                        margin-top: 70px;
+                        padding: 50px 30px 115px;
+                        background: rgba(255, 255, 255, 0.95);
+                        border-radius: 30px;
+                        text-align: center;
+                    "
+                >
+                    <div style="width: 100%; max-width: 489px; margin: 0 auto">
+                        <h1
+                            style="
+                                margin: 0;
+                                font-size: 32px;
+                                font-weight: 700;
+                                letter-spacing: -0.5px;
+                                color: #2c3e50;
+                                margin-bottom: 15px;
+                            "
+                        >
+                            Account Verification
+                        </h1>
+                        <p
+                            style="
+                                margin: 0;
+                                margin-top: 17px;
+                                font-size: 16px;
+                                font-weight: 500;
+                                letter-spacing: 0.56px;
+                                color: #34495e;
+                                margin-bottom: 30px;
+                            "
+                        >
+                            Hey {{ $user->first_name }}!,
+                        </p>
+
+                        <p
+                            style="
+                                margin: 0;
+                                font-size: 14px;
+                                color: #7f8c8d;
+                                line-height: 1.6;
+                                margin-bottom: 25px;
+                            "
+                        >
+                            To keep your shopping experience safe and secure, we
+                            use account verification to confirm your identity.
+                            This may include verifying your email address.
+                            <br />
+                            Verifying your account helps protect against
+                            unauthorized access, ensures secure transactions,
+                            and allows you to fully access features like order
+                            tracking, saved addresses, and exclusive offers.
+                        </p>
+
+                        <a
+                            href="{{ $verificationUrl }}"
+                            style="
+                                margin-top: 35px;
+                                background-color: #e7dfd3;
+                                border: none;
+                                color: #2c3e50;
+                                padding: 18px 45px;
+                                text-align: center;
+                                text-decoration: none;
+                                display: inline-block;
+                                font-size: 16px;
+                                font-weight: 600;
+                                letter-spacing: 0.5px;
+                                border-radius: 50px;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                box-shadow: 0 4px 15px rgba(231, 223, 211, 0.4);
+                            "
+                            onmouseover="this.style.backgroundColor='#D4C5B9'; this.style.transform='translateY(-2px)'"
+                            onmouseout="this.style.backgroundColor='#E7DFD3'; this.style.transform='translateY(0)'"
+                        >
+                            Verify Email Address
+                        </a>
+
+                        <div
+                            style="
+                                margin-top: 30px;
+                                padding: 15px;
+                                background: #fef9e7;
+                                border-radius: 10px;
+                                border: 1px solid #f39c12;
+                            "
+                        >
+                            <p
+                                style="
+                                    margin: 0;
+                                    font-size: 12px;
+                                    color: #e67e22;
+                                    line-height: 1.4;
+                                "
+                            >
+                                <strong>⚠️ Can't click the button?</strong
+                                ><br />
+                                Copy and paste this link into your browser:<br />
+                                <a
+                                    href="{{ $verificationUrl }}"
+                                    style="
+                                        color: #3498db;
+                                        word-break: break-all;
+                                    "
+                                    >{{ $resetUrl }}</a
+                                >
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 35px; text-align: center">
+                            <p
+                                style="
+                                    margin: 0;
+                                    font-size: 13px;
+                                    color: #95a5a6;
+                                    line-height: 1.5;
+                                "
+                            >
+                                Having trouble? Contact our support team at<br />
+                                <a
+                                    href="mailto:support@artcarousel.com"
+                                    style="
+                                        color: #3498db;
+                                        text-decoration: none;
+                                        font-weight: 500;
+                                    "
+                                >
+                                    support@artcarousel.com
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p
+                    style="
+                        max-width: 400px;
+                        margin: 0 auto;
+                        margin-top: 90px;
+                        text-align: center;
+                        font-weight: 500;
+                        color: #e7dfd3;
+                        font-size: 14px;
+                    "
+                >
+                    Need help? Ask at
+                    <a
+                        href="mailto:support@artcarousel.com"
+                        style="color: #e7dfd3; text-decoration: none"
+                    >
+                        support@artcarousel.com
+                    </a>
+                    or visit our
+                    <a
+                        href="{{ url('/faqs') }}"
+                        target="_blank"
+                        style="color: #e7dfd3; text-decoration: none"
+                    >
+                        Help Center
+                    </a>
+                </p>
+            </main>
+
+            <footer
+                style="
+                    width: 100%;
+                    max-width: 490px;
+                    margin: 20px auto 0;
+                    text-align: center;
+                    border-top: 1px solid #2c3e50;
+                    padding-top: 20px;
+                "
+            >
+                <p style="margin: 0; font-size: 13px; color: #95a5a6">
+                    © {{ date('Y') }} Art Carousel. All rights reserved.<br />
+                    Promoting Local Artists from Cavite.
+                </p>
+            </footer>
+        </div>
+    </body>
+</html>

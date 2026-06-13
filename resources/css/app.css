@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.loader {
+    background: #e0e0e0;
+    background: linear-gradient(110deg, #d6d6d6 8%, #ededed 18%, #d6d6d6 33%);
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+}
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}
+
+/* Flash Message Animation */
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+.animate-slide-in {
+    animation: slide-in 0.3s ease-out;
+}
+
+.mostly-customized-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    background-color: #aaaaaa1f;
+    border-radius: 1rem;
+}
+
+.mostly-customized-scrollbar::-webkit-scrollbar-thumb {
+    background: #ffffff76;
+    border-radius: 1rem;
+}
+.mostly-customized-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #ffffffb3;
+    cursor: pointer;
+}
+/* React Quill Editor Styles */
+.ql-toolbar.ql-snow {
+    border: 1px solid #e5e7eb !important;
+    border-bottom: none !important;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background-color: #f9fafb;
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border: 1px solid #e5e7eb !important;
+    border-radius: 0 0 0.5rem 0.5rem;
+    font-family: inherit;
+}
+.ql-editor {
+    min-height: 200px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+.ql-editor.ql-blank::before {
+    color: #9ca3af;
+    font-style: normal;
+}
+.prose-editor .ql-editor {
+    padding: 1rem;
+}
+.prose-editor .ql-editor h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+.prose-editor .ql-editor h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.prose-editor .ql-editor h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+.prose-editor .ql-editor p {
+    margin-bottom: 0.75rem;
+}
+.prose-editor .ql-editor ul,
+.prose-editor .ql-editor ol {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+}
+.prose-editor .ql-editor blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1rem;
+    color: #6b7280;
+    font-style: italic;
+    margin: 1rem 0;
+}
+.prose-editor .ql-editor a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+.prose-editor .ql-editor a:hover {
+    color: #2563eb;
+}
+.custom-color-picker {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid #333;
+    border-radius: 8px;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: border 0.2s, box-shadow 0.2s;
+    padding: 0;
+}
+.custom-color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 8px;
+}
+.custom-color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 8px;
+}
+.custom-color-picker:focus {
+    outline: none;
+    border: 2px solid #007bff;
+    box-shadow: 0 0 0 2px #007bff33;
+}
+.custom-color-picker::-moz-color-swatch {
+    border: none;
+    border-radius: 8px;
+}
+.custom-color-picker::-ms-fill-lower {
+    border-radius: 8px;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    background: #e0dfdf;
+    border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #2c3e50a0;
+    border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #2c3e50;
+    cursor: pointer;
+}
+
+/* Sidebar Scrollbar - Modern Dark Theme */
+.sidebar-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-scrollbar::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+    border-radius: 10px;
+    margin: 4px 0;
+}
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(75, 85, 99, 0.8);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 1);
+    box-shadow: 0 0 6px rgba(107, 114, 128, 0.5);
+}
+.sidebar-scrollbar::-webkit-scrollbar-thumb:active {
+    background: rgba(156, 163, 175, 1);
+}
+/* Firefox */
+.sidebar-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(75, 85, 99, 0.8) rgba(31, 41, 55, 0.5);
+}
+
